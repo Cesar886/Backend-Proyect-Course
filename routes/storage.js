@@ -1,27 +1,11 @@
 const express = require("express");
-const multer = require("multer");
+const uploadMiddleware = require("../utils/handleStorage");
+
 const router = express.Router()
 
 // .shift() agarra el primer valor de split()
 // caso contrario .pop() agarra el ultimo valor de split()
 
-
-const storage = multier.diskStorage({
- destination: function (req, file, cb) {
-  const pathStorage = `${__dirname}/../storage`;
-  cb(null, pathStorage)
- },
- filename: function (req, file, cb) {
-  const ext = file.originalname.split(".").pop();
-  const filename = `file-${Date.now()}.${ext}`;
-  cb(null, filename)
- },
-});
-
-const uploadMiddleware = multer({ storage })
-
-router.post("/",uploadMiddleware.single("myfile"),(req, res) => {
- res.send({ a: 1 })
-})
+router.post("/", uploadMiddleware.single("myfile"));
 
 module.exports = router
