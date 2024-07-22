@@ -7,15 +7,10 @@ const dbConnect = () => {
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-        }, 
-        (err, res) => {
-            if (!err) {
-                console.log(" *** Conexion Exitosa *** ");
-            } else {
-                console.log(" *** Error en la Conexion *** ");
-            }
-        }
-    );
+        }).then(
+        (res) => { console.log(" *** Conexion Exitosa ***  "); },
+        err => { console.log(" *** Error en la Conexion *** ", err); }
+      );;
 }
 
 module.exports = dbConnect;
