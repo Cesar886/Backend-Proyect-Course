@@ -1,5 +1,8 @@
-const getItems = (req, res) => {
-    const data = ["Hola", "Mundo"]
+const {tracksModel} = require('../models/index')
+
+const getItems = async (req, res) => {
+
+    const data = await tracksModel.find({});
 
     res.send({data})
 };
