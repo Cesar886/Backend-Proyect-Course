@@ -1,20 +1,34 @@
-const {tracksModel} = require("../models/index")
+const { tracksModel } = require("../models/index");
+const { handleHttpError } = require("../utils/handleError");
 
 const getItems = async (req, res) => {
 
-    const data = await tracksModel.find({});
+    try {
 
-    res.send({data})
+        const data = await tracksModel.find({});
+        res.send({ data })
+    } catch (e) {
+        handleHttpError(res, 'ERROR EN GET ITEMS')
+    }
+
 };
-const getItem = (req, res) => {};
 const createItem = async (req, res) => {
-    const { body } = req
-    console.log("🚀 ~ createItem ~ body:", body)
-    const data = await tracksModel.create(body)
-    res.send({data})
+
+    try {
+
+        const { body } = req
+        console.log("🚀 ~ createItem ~ body:", body)
+        const data = await tracksModel.create(body)
+        res.send({ data })
+    } catch (e) {
+        handleHttpError(res, 'ERROR EN GET ITEMS')
+    }
+
 };
-const updateItems = (req, res) => {};
-const deleteItems = (req, res) => {};
+
+const getItem = (req, res) => { };
+const updateItems = (req, res) => { };
+const deleteItems = (req, res) => { };
 
 
 
