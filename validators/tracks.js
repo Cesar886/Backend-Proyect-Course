@@ -1,5 +1,5 @@
 const { check } = require("express-validator");
- const validationResult = require("../utils/handleValidator")
+ const validateResult = require("../utils/handleValidator")
 
 const validatorCreateItem = [
     check("name")
@@ -38,7 +38,7 @@ const validatorCreateItem = [
     .notEmpty()
     .isMongoId(),
     (req, res, next) => {
-        return validationResult(req, res, next)
+        return validateResult(req, res, next)
     }
 ]
 
