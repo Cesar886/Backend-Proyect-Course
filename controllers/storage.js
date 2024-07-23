@@ -42,9 +42,12 @@ const deleteItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
         const dataFile = await storageModel.findById(id);
+        await storageModel.deleteOne(id)
+        // await storageModel.delete({_id:id}) asi quedaria para que no se borren en la db
         const { filename } = dataFile;
         const filePath = `${MEDIA_PATH}/${filename}`;
-        fs.unlikSync(filePath)
+        // fs.unlinkSync(filePath); asi seria para que no se borre en la db
+        fs.unlinkSync(filePath);
         const data = {
             filePath,
             deleted: 1
