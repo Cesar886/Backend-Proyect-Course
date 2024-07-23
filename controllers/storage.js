@@ -27,7 +27,6 @@ const getItem = async (req, res) => {
 
 const createItem = async (req, res) => {
     try {
-
         const { body, file } = req
         console.log("🚀 ~ createItem ~ body:", file)
         const fileDate = {
@@ -37,7 +36,7 @@ const createItem = async (req, res) => {
         const data = await storageModel.create(fileDate)
         res.send({ data })
     } catch (e) {
-        handleHttpError(res, 'ERROR CREATE ITEM')
+        handleHttpError(res, 'ERROR CREATE  ITEM')
 
     }
 };
@@ -48,8 +47,8 @@ const deleteItem = async (req, res) => {
     try {
         const { id } = matchedData(req)
         const dataFile = await storageModel.findById(id);
-        await storageModel.deleteOne(id)
-        // await storageModel.delete({_id:id}) asi quedaria para que no se borren en la db
+        await storageModel.deleteOne(id);
+        // await storageModel.delete({_id:id}) asi quedaria para que no se borre en la db
         const { filename } = dataFile;
         const filePath = `${MEDIA_PATH}/${filename}`;
         // fs.unlinkSync(filePath); asi seria para que no se borre en la db
