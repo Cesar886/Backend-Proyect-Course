@@ -1,3 +1,4 @@
+const { matchedData } = require("express-validator");
 const { tracksModel } = require("../models/index");
 const { handleHttpError } = require("../utils/handleError");
 
@@ -8,7 +9,7 @@ const getItems = async (req, res) => {
         const data = await tracksModel.find({});
         res.send({ data })
     } catch (e) {
-        handleHttpError(res, 'ERROR EN GET ITEMS')
+        handleHttpError(res, 'ERROR GET ITEMS')
     }
 
 };
@@ -16,12 +17,11 @@ const createItem = async (req, res) => {
 
     try {
 
-        const { body } = req
-        console.log("🚀 ~ createItem ~ body:", body)
+        const body = matchedData(req)
         const data = await tracksModel.create(body)
         res.send({ data })
     } catch (e) {
-        handleHttpError(res, 'ERROR EN GET ITEMS')
+        handleHttpError(res, 'ERROR CREATE_ITEMS ITEMS')
     }
 
 };
