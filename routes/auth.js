@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.post("/register", validatorRegister, (req, res) => {
     req = matchedData(req);
-    res.send({data:req})
+    res.send({data:req});
 });
 
-
-// module.exports = 
+// Aquí se exporta el router para que pueda ser utilizado por otros archivos, como tu archivo index.js
+module.exports = router;
