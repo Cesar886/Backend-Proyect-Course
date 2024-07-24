@@ -1,25 +1,11 @@
 const express = require("express");
-const { encypt } = require("../utils/handlePassword");
-const { validatorRegister } = require("../validators/auth");
-const { usersModel } = require("../models");
-const { matchedData } = require("express-validator");
-const { tokenSing } = require("../utils/handlejwt");
+const { validatorRegister, validatorLogin } = require("../validators/auth");
+const { registerCtrl, loginCtrl } = require("../controllers/auth");
 
 
 const router = express.Router();
 
-router.post("/register", validatorRegister, async (req, res) => {
-    req = matchedData(req);
-    const password = await encypt(req.password);
-    const body = { ...req, password };
-    const dataUser = await usersModel.create(body);
-    dataUser.set("password", undefined, { strict: false });
-
-    const data = {
-        token: await tokenSing(dataUser),
-        user: dataUser
-    }
-    res.send({ data });
-});
+router.post("/register", validatorRegister, registerCtrl)
+router.post("/login", validatorLogin, loginCtrl)
 
 module.exports = router;
