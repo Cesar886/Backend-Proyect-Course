@@ -4,7 +4,6 @@ const { tokenSign } = require("../utils/handlejwt");
 const { handleHttpError } = require("../utils/handleError");
 const { usersModel } = require("../models");
 
-
 const registerCtrl = async (req, res) => {
   try{
     req = matchedData(req);
