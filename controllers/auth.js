@@ -4,11 +4,7 @@ const { tokenSign } = require("../utils/handlejwt");
 const { handleHttpError } = require("../utils/handleError");
 const { usersModel } = require("../models");
 
-/**
- * Este controlador es el encargado de registrar un usuario
- * @param {*} req 
- * @param {*} res 
- */
+
 const registerCtrl = async (req, res) => {
   try{
     req = matchedData(req);
@@ -29,11 +25,7 @@ const registerCtrl = async (req, res) => {
   }
 };
 
-/**
- * Este controlador es el encargado de logear a una persona
- * @param {*} req 
- * @param {*} res 
- */
+
 const loginCtrl = async (req, res) => {
   try{
     req = matchedData(req);
