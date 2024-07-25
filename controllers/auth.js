@@ -35,7 +35,9 @@ const loginCtrl = async (req, res) => {
       return
     }
 
-    const hashPassword = user.get('password');
+    const hashPassword =  user.get('password');
+    console.log("🚀 ~ loginCtrl ~ user:", user)
+    console.log("🚀 ~ loginCtrl ~ hashPassword:", hashPassword)
 
     const check = await compare(req.password, hashPassword)
 
