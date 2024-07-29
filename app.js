@@ -14,16 +14,19 @@ const webHook = new IncomingWebhook(process.env.SLACK_WEBHOOK);
 
 const loggerStream = {
     write: message => {
-    console.log("🚀 ~ Capturando el LOG:", message)
+        webHook.send({
+            text: message
+        });
+        console.log("🚀 ~ Capturando el LOG:", message)
     }
 }
-morganBody(app), {
-    noColors: true
+morganBody(app, {
+    noColors: true,
     stream: loggerStream,
-    skip: function (req, res) {
+    skipt: function(req, res) {
         return res.statusCode < 400
     }
-}
+});
 
 const port = process.env.PORT || 3000
 
