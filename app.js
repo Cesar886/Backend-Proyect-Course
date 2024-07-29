@@ -4,7 +4,7 @@ const cors = require("cors")
 const dbConnectNoSql = require('./config/mongo')
 const morganBody = require('morgan-body')
 const loggerStream = require('./utils/handleLogger'); 
-const { dbConnectMySQL } = require("./config/mysql")
+const { dbConnectMySQL } = require("./config/mysql");
 
 const ENGINE_DB = process.env.ENGINE_DB;
 
