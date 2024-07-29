@@ -1,41 +1,30 @@
-require("dotenv").config()
-const express = require("express")
-const cors = require("cors")
-const dbConnectNoSql = require('./config/mongo')
-const morganBody = require('morgan-body')
-const loggerStream = require('./utils/handleLogger'); 
-const { dbConnectMySQL } = require("./config/mysql");
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const morganBody = require("morgan-body");
+const loggerStream = require("./utils/handleLogger");
+const dbConnectNoSql = require("./config/mongo");
+const {dbConnectMySql} = require("./config/mysql")
+const app = express();
 
 const ENGINE_DB = process.env.ENGINE_DB;
 
-const app = express()
-
-app.use(cors())
-app.use(express.json())
-app.use(express.static("storage"))
-
-
-
+app.use(cors());
+app.use(express.json());
+app.use(express.static("storage"));
 
 morganBody(app, {
-    noColors: true,
-    stream: loggerStream,
-    skipt: function (req, res) {
-        return res.statusCode < 400
-    }
+  noColors: true,
+  stream: loggerStream,
+  skip: function (req, res) {
+    return res.statusCode < 400;
+  },
 });
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
+app.use("/api", require("./routes"));
 
-// aqui invocamos a las rutas !!
-//TODO localhost/api/____
-app.use("/api", require("./routes"))
+(ENGINE_DB === 'nosql') ? dbConnectNoSql() : dbConnectMySql();
 
-app.listen(port, () => {
-    console.log(`http://localhost:${port}`);
-})
-
-(engine_db == 'nosql') ? dbConnect() : dbConnectMySQL();
-
-dbConnect()
+module.exports = app;
