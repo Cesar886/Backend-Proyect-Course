@@ -4,7 +4,7 @@ const cors = require("cors");
 const morganBody = require("morgan-body");
 const loggerStream = require("./utils/handleLogger");
 const dbConnectNoSql = require("./config/mongo");
-const {dbConnectMySql} = require("./config/mysql")
+const { dbConnectMySQL } = require("./config/mysql");
 const app = express();
 
 const ENGINE_DB = process.env.ENGINE_DB;
@@ -25,6 +25,6 @@ const port = process.env.PORT || 3000;
 
 app.use("/api", require("./routes"));
 
-(ENGINE_DB === 'nosql') ? dbConnectNoSql() : dbConnectMySql();
+(ENGINE_DB === 'nosql') ? dbConnectNoSql() : dbConnectMySQL();
 
 module.exports = app;
