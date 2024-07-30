@@ -46,18 +46,45 @@ const TracksScheme = new mongoose.Schema(
   }
 );
 
-TracksScheme.statics.finAllData = function (name) {
+TracksScheme.statics.findAllData = function () {
   const joinData = this.aggregate([
+    //TODO Tracks
     {
       $lookup: {
-        from: "media",
-        localField: "mediaId",
-        foreignField: "_id",
-        as: "media",
+        from: "storages", //TODO Tracks --> storages
+        localField: "mediaId", //TODO Tracks.mediaId
+        foreignField: "_id", //TODO Straoges._id
+        as: "audio", //TODO Alias!
       },
     },
+    {
+      $unwind: "$audio",
+    }
   ]);
+  return joinData;
 };
 
+// TracksScheme.statics.findOneData = function (id) {
+//   const joinData = this.aggregate([
+//     {
+//       $match: {
+//         _id: mongoose.Types.ObjectId(id),
+//       },
+//     },
+//     {
+//       $lookup: {
+//         from: "storages", //TODO Tracks --> storages
+//         localField: "mediaId", //TODO Tracks.mediaId
+//         foreignField: "_id", //TODO Straoges._id
+//         as: "audio", //TODO Alias!
+//       },
+//     },
+//     {
+//       $unwind: "$audio",
+//     }
+//   ]);
+//   return joinData;
+// };
+
 TracksScheme.plugin(mongooseDelete, { overrideMethods: "all" });
-module.exports = mongoose.model(" tracks ", TracksScheme); 
+module.exports = mongoose.model("tracks", TracksScheme);
