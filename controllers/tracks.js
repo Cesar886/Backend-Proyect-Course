@@ -28,10 +28,15 @@ const getItem = async (req, res) => {
 const createItem = async (req, res) => {
     try {
         const body = matchedData(req);
+        console.log("🚀 ~ Capturando el LOG: Request Body:", body);
+
         const data = await tracksModel.create(body);
+        console.log("🚀 ~ Capturando el LOG: New Track Created:", data);
+
         res.status(201);
         res.send({ data });
     } catch (e) {
+        console.log("🚀 ~ file: tracks.js:39 ~ createItem ~ e:", e)
         handleHttpError(res, "ERROR_CREATE_ITEMS");
     }
 };

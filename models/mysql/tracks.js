@@ -55,4 +55,6 @@ Tracks.findOneData = function (id) {
   return Tracks.findOne({ where: { id }, include: "audio" });
 };
 
+// Tracks.find = Tracks.findAll;
+// Tracks.findById = Tracks.findByPk;
 module.exports = Tracks;

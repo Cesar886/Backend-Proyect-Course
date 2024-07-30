@@ -1,23 +1,15 @@
 const mongoose = require("mongoose");
 
-const NODE_ENV = process.env.NODE_ENV;
-
-const dbConnect = async () => {
-  const DB_URI = (NODE_ENV === 'test')? process.env.DB_URI_TEST : process.env.DB_URI;
-  mongoose.connect(
-    DB_URI,
-    {
+const dbConnectNoSql = async () => {
+  try {
+    await mongoose.connect("your_mongo_db_connection_string", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    },
-    (err, res) => {
-        if(!err){
-            console.log('**** CONEXION CORRECTA ****')
-        }else{
-            console.log('**** ERROR DE CONEXION ****')
-        }
-    }
-  );
+    });
+    console.log("Database connected successfully");
+  } catch (error) {
+    console.error("Database connection error:", error);
+  }
 };
 
-module.exports = dbConnect;
+module.exports = dbConnectNoSql;
