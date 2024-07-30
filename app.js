@@ -4,7 +4,7 @@ const cors = require("cors");
 const morganBody = require("morgan-body");
 const loggerStream = require("./utils/handleLogger");
 const dbConnectNoSql = require("./config/mongo");
-const { dbConnectMySQL } = require("./config/mysql");
+const { dbConnectMySql } = require("./config/mysql");
 const app = express();
 
 const ENGINE_DB = process.env.ENGINE_DB;
@@ -17,7 +17,7 @@ app.use(express.static("storage"));
 morganBody(app, {
   noColors: true,
   stream: loggerStream,
-  skip: function (_, res) {
+  skip: function (req, res) {
     return res.statusCode < 400;
   },
 });
@@ -27,8 +27,9 @@ app.listen(port, () => {
   console.log("🚀 ~ app.listen ~ port:", port)
 });
 
+
 app.use("/api", require("./routes"));
 
-(ENGINE_DB === 'nosql') ? dbConnectNoSql() : dbConnectMySQL();
+(ENGINE_DB === 'nosql') ? dbConnectNoSql() : dbConnectMySql();
 
 module.exports = app;
