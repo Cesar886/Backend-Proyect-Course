@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const mongooseDelete = require("mongoose-delete");
-
 const TracksScheme = new mongoose.Schema(
   {
     name: {

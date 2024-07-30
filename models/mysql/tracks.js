@@ -53,7 +53,9 @@ Tracks.findOneData = function (id) {
     as: "audio",
   });
   return Tracks.findOne({ where: { id }, include: "audio" });
-};
+}
+
+
 
 // Tracks.find = Tracks.findAll;
 // Tracks.findById = Tracks.findByPk;
