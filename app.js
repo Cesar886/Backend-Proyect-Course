@@ -24,6 +24,8 @@ morganBody(app, {
   },
 });
 
+// prueba en actions
+
 const port = process.env.PORT || 3000;
 
 app.use( '/documentation', swaggerUi.serve, swaggerUi.setup(openApiConfigration) );
