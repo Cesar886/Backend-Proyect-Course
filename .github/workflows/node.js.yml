@@ -6,26 +6,52 @@ name: Node.js CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - name: Install Dependencies
+      run: npm ci && cp .env.example .env
+    - name: Run test
+      env:
+        DB_URI: ${{ secrets.DB_URI }}
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      run: npm test && echo ::set-output name=things::$(grep "FAIL" test-output.log | wc -l)
+      id: counter
+      shell: bash 
+    - name: Revisar test
+      if:  steps.counter.outputs.things != '0'
+      run: exit 1
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Deploy in EC2
+      env:
+        PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY  }}
+        HOSTNAME : ${{ secrets.HOST_DNS }}
+        USER_NAME : ${{ secrets.USERNAME   }}
+        
+      run: |
+        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+        
+          #Now we have got the access of EC2 and we will start the deploy .
+          cd /home/ubuntu/Backend-Proyect-Course &&
+          rm -rf node_modules &&
+          git checkout master &&
+          git fetch --all &&
+          git reset --hard origin/master &&
+          git pull origin master &&
+          npm ci && npm run start:prod
+        '
