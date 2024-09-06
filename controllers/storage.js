@@ -28,7 +28,6 @@ const getItem = async (req, res) => {
 const createItem = async (req, res) => {
     try {
         const { body, file } = req
-        console.log("🚀 ~ createItem ~ body:", file)
         const fileDate = {
             filename: file.filename,
             url: `${PUBLIC_URL}/${file.filename}`
