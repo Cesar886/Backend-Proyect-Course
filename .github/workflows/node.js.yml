@@ -24,7 +24,6 @@ jobs:
     - name: Run test
       env:
         DB_URI: ${{ secrets.DB_URI }}
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       run: npm test && echo ::set-output name=things::$(grep "FAIL" test-output.log | wc -l)
       id: counter
       shell: bash 
